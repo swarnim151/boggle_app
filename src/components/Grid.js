@@ -2,16 +2,17 @@ import React, { Component } from "react";
 
 class Grid extends Component {
   state = {
-    input_word: "vbvbnvnbvbn",
+    start_count: 0,
+    input_word: "",
     all_the_words: [],
     grid: [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0]
+      ["0", "0", "0", "0", "0"],
+      ["0", "0", "0", "0", "0"],
+      ["0", "0", "0", "0", "0"],
+      ["0", "0", "0", "0", "0"],
+      ["0", "0", "0", "0", "0"]
     ],
-    found_words: ["FSFNSF"]
+    found_words: ["  FSFNSF  A"]
   };
 
   PrintGrid() {
@@ -21,39 +22,39 @@ class Grid extends Component {
       <div>
         <div>
           <div>
-            <button>{grid[0][0]}</button>
-            <button>{grid[0][1]}</button>
-            <button>{grid[0][2]}</button>
-            <button>{grid[0][3]}</button>
-            <button>{grid[0][4]}</button>
+            <button>{this.state.grid[0][0]}</button>
+            <button>{this.state.grid[0][1]}</button>
+            <button>{this.state.grid[0][2]}</button>
+            <button>{this.state.grid[0][3]}</button>
+            <button>{this.state.grid[0][4]}</button>
           </div>
           <div>
-            <button>{grid[1][0]}</button>
-            <button>{grid[1][1]}</button>
-            <button>{grid[1][2]}</button>
-            <button>{grid[1][3]}</button>
-            <button>{grid[1][4]}</button>
+            <button>{this.state.grid[1][0]}</button>
+            <button>{this.state.grid[1][1]}</button>
+            <button>{this.state.grid[1][2]}</button>
+            <button>{this.state.grid[1][3]}</button>
+            <button>{this.state.grid[1][4]}</button>
           </div>
           <div>
-            <button>{grid[2][0]}</button>
-            <button>{grid[2][1]}</button>
-            <button>{grid[2][2]}</button>
-            <button>{grid[2][3]}</button>
-            <button>{grid[2][4]}</button>
+            <button>{this.state.grid[2][0]}</button>
+            <button>{this.state.grid[2][1]}</button>
+            <button>{this.state.grid[2][2]}</button>
+            <button>{this.state.grid[2][3]}</button>
+            <button>{this.state.grid[2][4]}</button>
           </div>
           <div>
-            <button>{grid[3][0]}</button>
-            <button>{grid[3][1]}</button>
-            <button>{grid[3][2]}</button>
-            <button>{grid[3][3]}</button>
-            <button>{grid[3][4]}</button>
+            <button>{this.state.grid[3][0]}</button>
+            <button>{this.state.grid[3][1]}</button>
+            <button>{this.state.grid[3][2]}</button>
+            <button>{this.state.grid[3][3]}</button>
+            <button>{this.state.grid[3][4]}</button>
           </div>
           <div>
-            <button>{grid[4][0]}</button>
-            <button>{grid[4][1]}</button>
-            <button>{grid[4][2]}</button>
-            <button>{grid[4][3]}</button>
-            <button>{grid[4][4]}</button>
+            <button>{this.state.grid[4][0]}</button>
+            <button>{this.state.grid[4][1]}</button>
+            <button>{this.state.grid[4][2]}</button>
+            <button>{this.state.grid[4][3]}</button>
+            <button>{this.state.grid[4][4]}</button>
           </div>
           <div>
             <br />
@@ -67,7 +68,6 @@ class Grid extends Component {
                   onChange={this.handleChange}
                 />
                 <br />
-                {this.CreateGrid()}
               </label>
               <input type="submit" value="Submit" />
               <br />
@@ -194,9 +194,10 @@ class Grid extends Component {
   }
 
   check_if_new_word() {
-    var result = this.boggle(this.state.grid, this.state.input_word);
+    var result = this.boggle(this.state.grid, "A");
     {
-      result ? this.found() : this.not_found(); // "a=1" --> the function that displays the wrong word "[this.state.input)word] is incorrect! "
+      if (result === true) return this.found();
+      return this.not_found(); // "a=1" --> the function that displays the wrong word "[this.state.input)word] is incorrect! "
     }
   }
 
@@ -221,9 +222,16 @@ class Grid extends Component {
     return (
       <div>
         <p>Boggle</p>
-        <button onClick={(this.count = 1)}>Start</button>
+        <button onClick={(this.start_count = 1)}>Start</button>
+        <script>
+          if (this.start_count = 1) this.CreateGrid() this.PrintGrid()
+          this.check_if_new_word() this.display_found_words()
+        </script>
         {this.CreateGrid()}
         {this.PrintGrid()}
+        {this.state.grid}
+        {this.check_if_new_word()}
+        {this.boggle(this.state.grid, "K")}
         {this.state.found_words}
         {this.check_if_new_word()}
         {this.display_found_words()}
