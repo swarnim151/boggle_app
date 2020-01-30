@@ -11,6 +11,7 @@ function App() {
       <header className="App-header">
         <p>Boggle</p>
         <RandomGrid></RandomGrid>
+        <Counter></Counter>
       </header>
     </div>
   );

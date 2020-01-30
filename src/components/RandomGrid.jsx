@@ -1,12 +1,23 @@
 import React, { Component } from "react";
 
 class RandomGrid extends Component {
+  state = {
+    count: 0,
+    imageUrl: "https://picsum.photos/200",
+    all_the_words: []
+  };
+
+  styles = {
+    fontSize: 100,
+    fontWeight: "bold"
+  };
   render() {
     const grid = this.CreateGrid();
 
     return (
       <div>
         <div>
+          <p></p>
           <button>{grid[0][0]}</button>
           <button>{grid[0][1]}</button>
           <button>{grid[0][2]}</button>
@@ -40,6 +51,24 @@ class RandomGrid extends Component {
           <button>{grid[4][2]}</button>
           <button>{grid[4][3]}</button>
           <button>{grid[4][4]}</button>
+        </div>
+        <div>
+          <br />
+          <br />
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Guess a word:
+              <br />
+              <textarea value={this.state.value} onChange={this.handleChange} />
+              <br />
+            </label>
+            <input type="submit" value="Submit" />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </form>
         </div>
       </div>
     );
