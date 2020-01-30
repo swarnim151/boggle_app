@@ -1,26 +1,23 @@
 import React, { Component } from "react";
 
-class RandomGrid extends Component {
+class Grid extends Component {
   state = {
-    count: 0,
-    imageUrl: "https://picsum.photos/200",
     all_the_words: [],
-    grid: []
+    grid: [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ],
+    found_words: []
   };
 
-  operation() {
-    this.setState({
-      count: 1
-    });
-  }
-
-  render() {
-    const grid = this.CreateGrid();
+  PrintGrid() {
+    const grid = this.state.grid;
 
     return (
       <div>
-        <p>Boggle</p>
-        <button onClick={(this.count = 1)}>Start</button>
         <div>
           <div>
             <button>{grid[0][0]}</button>
@@ -101,12 +98,114 @@ class RandomGrid extends Component {
     for (let row = 0; row < SIZE; row++) {
       grid[row] = [];
       for (let col = 0; col < SIZE; ++col) {
-        grid[row][col] = chars[SIZE * row + col];
-        if (grid[row][col] === "Q") grid[row][col] = "Qu";
+        this.state.grid[row][col] = chars[SIZE * row + col];
+        if (this.state.grid[row][col] === "Q") this.state.grid[row][col] = "Qu";
       }
     }
-    return grid;
+  }
+
+  visited_node(n, visited_nodes) {
+    for (var i = 0; i < n; i++) {
+      var row = [];
+      for (var j = 0; j < n; j++) {
+        row.push(false);
+      }
+      visited_nodes.push(row);
+    }
+  }
+
+  check_for_letter_traversal(
+    grid,
+    word,
+    matched_letter,
+    x,
+    y,
+    visited_nodes,
+    answer
+  ) {
+    for (var i = x - 1; i < x + 2; i++) {
+      for (var j = y - 1; j < y + 2; j++) {
+        if (
+          i >= 0 &&
+          j >= 0 &&
+          i < grid.length &&
+          j < grid.length &&
+          visited_nodes[i][j] == false
+        ) {
+          if (word[matched_letter] == grid[i][j]) {
+            if (word.length - matched_letter == 1) {
+              answer.push(1);
+              return 1;
+            } else {
+              matched_letter += 1;
+              visited_nodes[i][j] = true;
+              this.check_for_letter_traversal(
+                grid,
+                word,
+                matched_letter,
+                i,
+                j,
+                visited_nodes,
+                answer
+              );
+              matched_letter -= 1;
+              visited_nodes[i][j] = true;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  boggle(grid, word) {
+    var answer = [];
+    var n = grid.length;
+    var matched_letter = 0;
+    var visited_nodes = [];
+    this.visited_node(n, visited_nodes);
+
+    for (var i = 0; i < n; i++) {
+      for (var j = 0; j < n; j++) {
+        if (grid[i][j] == word[0]) {
+          visited_nodes[i][j] = true;
+          if (word.length == 1) {
+            return true;
+          }
+          this.check_for_letter_traversal(
+            grid,
+            word,
+            1,
+            i,
+            j,
+            visited_nodes,
+            answer
+          );
+          if (answer.length > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    if (answer.length === 0) {
+      return false;
+    }
+  }
+
+  check_if_found() {
+    return this.boggle(this.state.grid, "ACB");
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Boggle</p>
+        <button onClick={(this.count = 1)}>Start</button>
+        {this.CreateGrid()}
+        {this.PrintGrid()}
+        {this.check_if_found()}
+      </div>
+    );
   }
 }
 
-export default RandomGrid;
+export default Grid;

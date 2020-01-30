@@ -3,29 +3,29 @@ import React, { Component } from "react";
 class Counter extends Component {
   state = {
     count: 0,
-    imageUrl: "https://picsum.photos/200"
+    imageUrl: "https://picsum.photos/200",
+    showMe: true
   };
 
   styles = {
     fontSize: 100,
     fontWeight: "bold"
   };
+
+  operation() {
+    this.setState({
+      showMe: false
+    });
+  }
   render() {
     const x = 3;
     return (
       <div>
-        <img src={this.state.imageUrl} alt="" />
-        <span>{this.formatCount()}</span>
-        <span>{x}</span>
-        <button>Increment</button>
+        <h1>Hide and Show in React Js</h1>
+        {this.state.showMe ? <div>Please hide me</div> : null}
+        <button onClick={() => this.operation()}>Start</button>
       </div>
     );
-  }
-
-  formatCount() {
-    const { count } = this.state;
-
-    return count === 0 ? <h1>Zero</h1> : count;
   }
 }
 
