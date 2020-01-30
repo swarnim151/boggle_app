@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 class Grid extends Component {
   state = {
+    input_word: "vbvbnvnbvbn",
     all_the_words: [],
     grid: [
       [0, 0, 0, 0, 0],
@@ -10,7 +11,7 @@ class Grid extends Component {
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0]
     ],
-    found_words: []
+    found_words: ["FSFNSF"]
   };
 
   PrintGrid() {
@@ -62,10 +63,11 @@ class Grid extends Component {
                 Guess a word:
                 <br />
                 <textarea
-                  value={this.state.value}
+                  input_word={this.state.value}
                   onChange={this.handleChange}
                 />
                 <br />
+                {this.CreateGrid()}
               </label>
               <input type="submit" value="Submit" />
               <br />
@@ -191,9 +193,29 @@ class Grid extends Component {
     }
   }
 
-  check_if_found() {
-    return this.boggle(this.state.grid, "ACB");
+  check_if_new_word() {
+    var result = this.boggle(this.state.grid, this.state.input_word);
+    {
+      result ? this.found() : this.not_found(); // "a=1" --> the function that displays the wrong word "[this.state.input)word] is incorrect! "
+    }
   }
+
+  // function for when the user inputs a correct word
+  // 1. include in the fonud_wrods
+  // 2. display the "Correct word! "
+  // 3. display all words found
+  found() {
+    this.state.found_words.push(this.state.input_word);
+    console.log("Word is found");
+  }
+
+  // function for when the user inputs an incorrect word
+  // 1. display correct words
+  // 2. Give message that it is WRONG
+  // 3. clear the textbox? ( upon submit)
+  not_found() {}
+
+  display_found_words() {}
 
   render() {
     return (
@@ -202,7 +224,10 @@ class Grid extends Component {
         <button onClick={(this.count = 1)}>Start</button>
         {this.CreateGrid()}
         {this.PrintGrid()}
-        {this.check_if_found()}
+        {this.state.found_words}
+        {this.check_if_new_word()}
+        {this.display_found_words()}
+        {this.state.found_words}
       </div>
     );
   }
