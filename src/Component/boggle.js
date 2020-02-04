@@ -72,7 +72,7 @@ class Boggle extends Component {
       return (
         <div>
           <div>{this.PrintGrid()}</div>
-          <GamePlay></GamePlay>
+          <BoggleGame></BoggleGame>
         </div>
       );
     } else {
@@ -87,27 +87,12 @@ class Boggle extends Component {
 
 export default Boggle;
 
-class PrintList extends Component {
-  render() {
-    const print_words = this.props.print_words;
-    const print_items_list = print_words.map(print_item => (
-      <li>{print_item}</li>
-    ));
-    return (
-      <div>
-        <ul> {print_items_list} </ul>
-      </div>
-    );
-  }
-}
-
-class GamePlay extends Component {
+class BoggleGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
       input_word: "",
       valid_words: [],
-      invalid_words: [],
       all_valid_words: [
         "ACE",
         "ACEROSE",
@@ -391,7 +376,7 @@ class GamePlay extends Component {
         "ZEROES",
         "ZEROS"
       ],
-      ongoing: true
+      game_state: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -404,13 +389,11 @@ class GamePlay extends Component {
 
   handleStop(event) {
     event.preventDefault();
-    this.setState({ ongoing: false });
+    this.setState({ game_state: false });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-
-    let input_word = this.state.input_word.toUpperCase();
 
     if (this.state.valid_words.includes(this.state.input_word)) {
       alert("The word has already been found.");
@@ -429,10 +412,7 @@ class GamePlay extends Component {
       }
       this.setState({ all_valid_words: new_all_valid_words });
     } else {
-      alert("The word is invalid.");
-      var new_invalid_words = this.state.invalid_words;
-      new_invalid_words.push(this.state.input_word);
-      this.setState({ invalid_words: new_invalid_words });
+      alert("The word you have entered is invalid.");
     }
   }
 
@@ -459,18 +439,18 @@ class GamePlay extends Component {
         remaining_words.push(current_word);
       }
     }
-    const invalid_words_list = remaining_words.map(print_item => (
+    const remaining_words_list = remaining_words.map(print_item => (
       <li>{print_item}</li>
     ));
     return (
       <div>
-        <ul> {invalid_words_list} </ul>
+        <ul> {remaining_words_list} </ul>
       </div>
     );
   }
 
   render() {
-    if (this.state.ongoing) {
+    if (this.state.game_state) {
       return (
         <div>
           <div>
